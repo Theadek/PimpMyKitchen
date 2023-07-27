@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,12 +18,12 @@ public class PlateIconsUI : MonoBehaviour
         plateKitchenObject.OnIngredientAdded += PlateKitchenObject_OnIngredientAdded;
     }
 
-    private void PlateKitchenObject_OnIngredientAdded(object sender, PlateKitchenObject.OnIngredientAddedEventArgs e)
+    private void PlateKitchenObject_OnIngredientAdded(object sender, EventArgs e)
     {
         UpdateVisual();
     }
 
-    private void UpdateVisual()
+    public void UpdateVisual()
     {
         foreach(Transform child in transform)
         {
