@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlateCompleteVisual : MonoBehaviour
+public class BurgerCompleteVisual : MonoBehaviour
 {
     [Serializable]
     public struct KitchenObjectSO_GameObject
@@ -12,16 +12,16 @@ public class PlateCompleteVisual : MonoBehaviour
         public GameObject gameObject;
     }
 
-    [SerializeField] private PlateKitchenObject plateKitchenObject;
+    [SerializeField] private BreadKitchenObject breadKitchenObject;
     [SerializeField] private List<KitchenObjectSO_GameObject> kitchenObjectSOGameObjectList;
 
     private void Start()
     {
-        plateKitchenObject.OnIngredientAdded += PlateKitchenObject_OnIngredientAdded;
+        breadKitchenObject.OnIngredientAdded += BreadKitchenObject_OnIngredientAdded;
         RefreshVisual();
     }
 
-    private void PlateKitchenObject_OnIngredientAdded(object sender, EventArgs e)
+    private void BreadKitchenObject_OnIngredientAdded(object sender, System.EventArgs e)
     {
         RefreshVisual();
     }
@@ -32,7 +32,7 @@ public class PlateCompleteVisual : MonoBehaviour
         {
             child.gameObject.SetActive(false);
         }
-        foreach (KitchenObjectSO kitchenObjectSO in plateKitchenObject.GetKitchenObjectSOList())
+        foreach (KitchenObjectSO kitchenObjectSO in breadKitchenObject.GetKitchenObjectSOList())
         {
             foreach (KitchenObjectSO_GameObject kitchenObjectSO_GameObject in kitchenObjectSOGameObjectList)
             {
@@ -44,5 +44,4 @@ public class PlateCompleteVisual : MonoBehaviour
             }
         }
     }
-
 }

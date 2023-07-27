@@ -84,6 +84,17 @@ public class StoveCounter : BaseCounter, IHasProgress
                         OnProgressChanged?.Invoke(this, new OnProgressChangedEventArgs(0f));
                     }
                 }
+                else if (player.GetKitchenObject().TryGetBread(out BreadKitchenObject breadKitchenObject))
+                {
+                    if (breadKitchenObject.TryAddIngredient(GetKitchenObject().GetKitchenObjectSO()))
+                    {
+                        GetKitchenObject().DestroySelf();
+                        OnStateChanged?.Invoke(this, new OnStateChangedEventHandler(false));
+                        fryingTimer = 0f;
+                        OnProgressChanged?.Invoke(this, new OnProgressChangedEventArgs(0f));
+                    }
+                }
+
             }
             else
             {

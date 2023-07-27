@@ -20,23 +20,64 @@ public class ClearCounter : BaseCounter
         else
         {
             // Something on Counter
+            PlateKitchenObject plateKitchenObject;
+            BreadKitchenObject breadKitchenObject;
             if (player.HasKitchenObject())
             {
                 // Player has something
-                if(player.GetKitchenObject().TryGetPlate(out PlateKitchenObject plateKitchenObject))
+                if(player.GetKitchenObject().TryGetPlate(out plateKitchenObject))
                 {
-                    if (plateKitchenObject.TryAddIngredient(GetKitchenObject().GetKitchenObjectSO()))
+                    // Player has plate
+                    if (GetKitchenObject().TryGetBread(out breadKitchenObject))
+                    {
+                        if (plateKitchenObject.TryAddBurger(breadKitchenObject))
+                        {
+                            GetKitchenObject().DestroySelf();
+                            return;
+                        }
+                    }
+                    else if (plateKitchenObject.TryAddIngredient(GetKitchenObject().GetKitchenObjectSO()))
                     {
                         GetKitchenObject().DestroySelf();
+                        return;
                     }
                 }
-                else if(GetKitchenObject().TryGetPlate(out plateKitchenObject))
+                if (player.GetKitchenObject().TryGetBread(out breadKitchenObject))
                 {
+                    // Player has bread
+                    if (GetKitchenObject().TryGetPlate(out plateKitchenObject))
+                    {
+                        if (plateKitchenObject.TryAddBurger(breadKitchenObject))
+                        {
+                            player.GetKitchenObject().DestroySelf();
+                            return;
+                        }
+                    }
+                    else if (breadKitchenObject.TryAddIngredient(GetKitchenObject().GetKitchenObjectSO()))
+                    {
+                        GetKitchenObject().DestroySelf();
+                        return;
+                    }
+                }
+                if(GetKitchenObject().TryGetPlate(out plateKitchenObject))
+                {
+                    // Counter has plate
                     if (plateKitchenObject.TryAddIngredient(player.GetKitchenObject().GetKitchenObjectSO()))
                     {
                         player.GetKitchenObject().DestroySelf();
+                        return;
                     }
                 }
+                if(GetKitchenObject().TryGetBread(out breadKitchenObject))
+                {
+                    // Counter has bread
+                    if (breadKitchenObject.TryAddIngredient(player.GetKitchenObject().GetKitchenObjectSO()))
+                    {
+                        player.GetKitchenObject().DestroySelf();
+                        return;
+                    }
+                }
+
             }
             else
             {

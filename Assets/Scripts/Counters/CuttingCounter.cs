@@ -29,12 +29,7 @@ public class CuttingCounter : BaseCounter, IHasProgress
                     cuttingProgress = 0;
                     OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs((float)cuttingProgress / cuttingRecipeSO.cuttingProgressMax)); //can also just give 0 as 0 divided by whatever is still 0
                 }
-                else
-                {
-                    Debug.Log("Wrong input");
-                }
             }
-
         }
         else
         {
@@ -44,11 +39,22 @@ public class CuttingCounter : BaseCounter, IHasProgress
                 // Player has something
                 if (player.GetKitchenObject().TryGetPlate(out PlateKitchenObject plateKitchenObject))
                 {
+                    // Player has plate
                     if (plateKitchenObject.TryAddIngredient(GetKitchenObject().GetKitchenObjectSO()))
                     {
                         GetKitchenObject().DestroySelf();
                         cuttingProgress = 0;
-                        OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs(0f)); //can also just give 0 as 0 divided by whatever is still 0
+                        OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs(0f));
+                    }
+                }
+                else if (player.GetKitchenObject().TryGetBread(out BreadKitchenObject breadKitchenObject))
+                {
+                    // Player has bread
+                    if (breadKitchenObject.TryAddIngredient(GetKitchenObject().GetKitchenObjectSO()))
+                    {
+                        GetKitchenObject().DestroySelf();
+                        cuttingProgress = 0;
+                        OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs(0f));
                     }
                 }
             }
@@ -57,7 +63,7 @@ public class CuttingCounter : BaseCounter, IHasProgress
                 // Player has nothing
                 GetKitchenObject().SetKitchenObjectParent(player);
                 cuttingProgress = 0;
-                OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs(0f)); //can also just give 0 as 0 divided by whatever is still 0
+                OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs(0f));
             }
         }
     }
@@ -84,10 +90,6 @@ public class CuttingCounter : BaseCounter, IHasProgress
                     GetKitchenObject().DestroySelf();
                     KitchenObject.SpawnKitchenObject(cuttingRecipeSO.output, this);
                 }
-            }
-            else
-            {
-                //Can't slice that Kitchen Object
             }
         }
     }

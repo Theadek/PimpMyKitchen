@@ -31,15 +31,15 @@ public class PlatesCounter : BaseCounter
 
     public override void Interact(Player player)
     {
-        if(!player.HasKitchenObject())
-        {
-            if(platesSpawnedAmount > 0)
-            {
-                KitchenObject.SpawnKitchenObject(plateKitchenObjectSO, player);
-                platesSpawnedAmount--;
-                OnPlateRemoved?.Invoke(this, EventArgs.Empty);
-            }
+        if (platesSpawnedAmount <= 0) return;
 
+
+        if (!player.HasKitchenObject())
+        {
+            // Player is empty handed
+            KitchenObject.SpawnKitchenObject(plateKitchenObjectSO, player);
+            platesSpawnedAmount--;
+            OnPlateRemoved?.Invoke(this, EventArgs.Empty);
         }
         else
         {
@@ -47,9 +47,26 @@ public class PlatesCounter : BaseCounter
             if (plateKitchenObjectSO.prefab.GetComponent<PlateKitchenObject>().IsValidKitchenObjectSO(player.GetKitchenObject().GetKitchenObjectSO()))
             {
                 // Kitchen Object can be stored on plate
-                if (platesSpawnedAmount > 0)
+
+                if(player.GetKitchenObject().TryGetBread(out BreadKitchenObject breadKitchenObject))
                 {
-                    // Has available plates
+                    // Player has bread, so needs to add ingredients from bread too
+                    List<KitchenObjectSO> ingredientsInBurger = breadKitchenObject.GetKitchenObjectSOList();
+
+                    KitchenObjectSO playerHoldingKitchenObjectSO = player.GetKitchenObject().GetKitchenObjectSO();
+                    player.GetKitchenObject().DestroySelf();
+
+                    PlateKitchenObject newPlate = KitchenObject.SpawnKitchenObject(plateKitchenObjectSO, player) as PlateKitchenObject;
+                    foreach (KitchenObjectSO kitchenObjectSO in ingredientsInBurger)
+                    {
+                        newPlate.TryAddIngredient(kitchenObjectSO);
+                    }
+                    newPlate.TryAddIngredient(playerHoldingKitchenObjectSO);
+                    newPlate.GetComponentInChildren<PlateIconsUI>().UpdateVisual();
+                    newPlate.GetComponentInChildren<PlateCompleteVisual>().RefreshVisual();
+                }
+                else
+                {
                     KitchenObjectSO playerHoldingKitchenObjectSO = player.GetKitchenObject().GetKitchenObjectSO();
                     player.GetKitchenObject().DestroySelf();
 
@@ -57,11 +74,15 @@ public class PlatesCounter : BaseCounter
                     newPlate.TryAddIngredient(playerHoldingKitchenObjectSO);
                     newPlate.GetComponentInChildren<PlateIconsUI>().UpdateVisual();
                     newPlate.GetComponentInChildren<PlateCompleteVisual>().RefreshVisual();
-
-                    platesSpawnedAmount--;
-                    OnPlateRemoved?.Invoke(this, EventArgs.Empty);
                 }
+
+
+                platesSpawnedAmount--;
+                OnPlateRemoved?.Invoke(this, EventArgs.Empty);
+
+
             }
+
         }
     }
 }

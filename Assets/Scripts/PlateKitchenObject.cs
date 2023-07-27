@@ -29,10 +29,45 @@ public class PlateKitchenObject : KitchenObject
         else
         {
             // Added new object
-            kitchenObjectSOList.Add(kitchenObjectSO);
-            OnIngredientAdded?.Invoke(this, EventArgs.Empty);
+            AddIngredient(kitchenObjectSO);
             return true;
         }
+    }
+
+    private void AddIngredient(KitchenObjectSO kitchenObjectSO)
+    {
+        kitchenObjectSOList.Add(kitchenObjectSO);
+        OnIngredientAdded?.Invoke(this, EventArgs.Empty);
+    }
+
+    public bool TryAddBurger(BreadKitchenObject breadKitchenObject)
+    {
+        List<KitchenObjectSO> burgerIngredients = breadKitchenObject.GetKitchenObjectSOList();
+        burgerIngredients.Add(breadKitchenObject.GetKitchenObjectSO());
+
+        foreach(KitchenObjectSO burgerIngredient in burgerIngredients)
+        {
+            if (kitchenObjectSOList.Contains(burgerIngredient))
+            {
+                // There is a duplicated ingredient
+                return false;
+            }
+        }
+        foreach (KitchenObjectSO burgerIngredient in burgerIngredients)
+        {
+            if (!IsValidKitchenObjectSO(burgerIngredient))
+            {
+                // Invalid kitchenObject in burger
+                return false;
+            }
+        }
+
+        foreach (KitchenObjectSO burgerIngredient in burgerIngredients)
+        {
+            AddIngredient(burgerIngredient);
+        }
+
+        return true;
     }
 
     public bool IsValidKitchenObjectSO(KitchenObjectSO kitchenObjectSO)
