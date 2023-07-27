@@ -23,10 +23,19 @@ public class KitchenGameManager : MonoBehaviour
     private float gamePlayingTimer;
     private float gamePlayingTimerMax = 10f;
 
+    [SerializeField] private bool isDebugMode;
+
     private void Awake()
     {
         state = State.WaitingToStart;
         Instance = this;
+
+        if (isDebugMode)
+        {
+            waitingToStartTimer = 0f;
+            countdownToStartTimer = 1f;
+            gamePlayingTimerMax = 10000f;
+        }
     }
 
     private void Update()
