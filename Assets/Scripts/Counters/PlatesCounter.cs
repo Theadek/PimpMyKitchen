@@ -62,6 +62,8 @@ public class PlatesCounter : BaseCounter
                         newPlate.TryAddIngredient(kitchenObjectSO);
                     }
                     newPlate.TryAddIngredient(playerHoldingKitchenObjectSO);
+                    newPlate.GetComponentInChildren<PlateIconsUI>().UpdateVisual();
+                    newPlate.GetComponentInChildren<PlateCompleteVisual>().RefreshVisual();
                 }
                 else
                 {
@@ -70,6 +72,8 @@ public class PlatesCounter : BaseCounter
 
                     PlateKitchenObject newPlate = KitchenObject.SpawnKitchenObject(plateKitchenObjectSO, player) as PlateKitchenObject;
                     newPlate.TryAddIngredient(playerHoldingKitchenObjectSO);
+                    newPlate.GetComponentInChildren<PlateIconsUI>().UpdateVisual();
+                    newPlate.GetComponentInChildren<PlateCompleteVisual>().RefreshVisual();
                 }
 
 

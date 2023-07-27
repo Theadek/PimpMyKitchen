@@ -37,17 +37,13 @@ public class BurgerIconsUI : MonoBehaviour
         List<KitchenObjectSO> breadKitchenObjectSOList = breadKitchenObject.GetKitchenObjectSOList();
         if (breadKitchenObjectSOList.Count > 0)
         {
-            foreach (KitchenObjectSO kitchenObjectSO in breadKitchenObjectSOList)
+            breadKitchenObjectSOList.Add(breadKitchenObject.GetKitchenObjectSO());
+            foreach (KitchenObjectSO kitchenObjectSO in breadKitchenObject.GetKitchenObjectSOList())
             {
                 Transform iconTransform = Instantiate(iconTemplate, transform);
                 iconTransform.gameObject.SetActive(true);
                 iconTransform.GetComponent<PlateIconsSingleUI>().SetKitchenObjectSO(kitchenObjectSO);
             }
-
-            // Bread icon added too
-            Transform breadIconTransform = Instantiate(iconTemplate, transform);
-            breadIconTransform.gameObject.SetActive(true);
-            breadIconTransform.GetComponent<PlateIconsSingleUI>().SetKitchenObjectSO(breadKitchenObject.GetKitchenObjectSO());
         }
     }
 }
