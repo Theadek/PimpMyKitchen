@@ -8,4 +8,5 @@ public class StoveRecipeSO : ScriptableObject
     public KitchenObjectSO input;
     public KitchenObjectSO output;
     public float fryingTimerMax;
+    public bool isBurning;
 }
