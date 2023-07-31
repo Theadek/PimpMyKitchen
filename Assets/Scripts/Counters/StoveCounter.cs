@@ -62,10 +62,6 @@ public class StoveCounter : BaseCounter, IHasProgress
                 {
                     player.GetKitchenObject().SetKitchenObjectParent(this);
                 }
-                else
-                {
-                    Debug.Log("Wrong input");
-                }
             }
         }
         else
