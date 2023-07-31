@@ -83,11 +83,11 @@ public class Player : MonoBehaviour, IKitchenObjectParent
         // TODO Below code needs to be refactored to work with analog controllers
         // The problem is checking moveDirX.x != 0 as on console it would be rarely 0
         // The other problem is the effect of sliding too fast when approaching obstacles
-
+        float deadzone = .3f;
         if (!canMove)
         {
             Vector3 moveDirX = new Vector3(movementDirection.x, 0, 0);
-            canMove = movementDirection.x != 0 && !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDirX, moveDistance);
+            canMove = (movementDirection.x < -deadzone || movementDirection.x > deadzone) && !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDirX, moveDistance);
             if (canMove)
             {
                 movementDirection = moveDirX;
@@ -95,7 +95,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
             else
             {
                 Vector3 moveDirZ = new Vector3(0, 0, movementDirection.z).normalized;
-                canMove = movementDirection.z != 0 && !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDirZ, moveDistance);
+                canMove = (movementDirection.z < -deadzone || movementDirection.z > deadzone) && !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDirZ, moveDistance);
                 if (canMove)
                 {
                     movementDirection = moveDirZ;
