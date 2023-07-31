@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Rendering;
@@ -9,6 +10,8 @@ public class SoundManager : MonoBehaviour
     private const string PLAYER_PERFS_SOUND_EFFECTS_VOLUME = "SoundEffectVolume";
 
     public static SoundManager Instance { get; private set; }
+
+    public event EventHandler OnSoundEffectVolumeChange;
 
     [SerializeField] private AudioClipRefsSO audioClipRefsSO;
 
@@ -73,7 +76,7 @@ public class SoundManager : MonoBehaviour
 
     private void PlaySound(AudioClip[] audioClipArray, Vector3 position, float volume = 1.0f)
     {
-        PlaySound(audioClipArray[Random.Range(0, audioClipArray.Length)], position, volume);
+        PlaySound(audioClipArray[UnityEngine.Random.Range(0, audioClipArray.Length)], position, volume);
     }
 
     public void PlayFootstepsSound(Vector3 position, float volume = 1.0f)
@@ -91,6 +94,8 @@ public class SoundManager : MonoBehaviour
 
         PlayerPrefs.SetFloat(PLAYER_PERFS_SOUND_EFFECTS_VOLUME, volume);
         PlayerPrefs.Save();
+
+        OnSoundEffectVolumeChange?.Invoke(this, EventArgs.Empty);
     }
 
     public float GetVolume()
