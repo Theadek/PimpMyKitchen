@@ -13,7 +13,7 @@ public static class Loader
         LoadingScene
     }
 
-    private static Scene targetScene;
+    private static Scene targetScene = Scene.MainMenuScene;
 
     public static void Load(Scene targetScene)
     {
