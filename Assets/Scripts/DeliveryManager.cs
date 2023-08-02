@@ -17,7 +17,7 @@ public class DeliveryManager : MonoBehaviour
     private float spawnRecipeTimer;
     private float spawnRecipeTimerMax = 4f;
     private int waitingRecipeMax = 4;
-    private int successfulRecipesAmount = 0;
+    private int currentScore = 0;
 
 
     private void Awake()
@@ -73,19 +73,22 @@ public class DeliveryManager : MonoBehaviour
                 if (plateContetntsMatchRecipe)
                 {
                     // Player delivered the correct recipe!
+                    currentScore += waitingRecipeSOList[i].score;
                     waitingRecipeSOList.RemoveAt(i);
 
                     OnRecipeCompleted?.Invoke(this, EventArgs.Empty);
                     OnRecipeSuccess?.Invoke(this, EventArgs.Empty);
 
-                    successfulRecipesAmount++;
                     return true;
                 }
             }
         }
         // No match found!
         // Player did not deliver a correct recipe!
+        int minusPoints = 5;
+        currentScore -= minusPoints;
         OnRecipeFailed?.Invoke(this, EventArgs.Empty);
+
         return false;
     }
 
@@ -94,9 +97,9 @@ public class DeliveryManager : MonoBehaviour
         return waitingRecipeSOList;
     }
 
-    public int GetSuccessfulRecipesAmount()
+    public int GetCurrentScore()
     {
-        return successfulRecipesAmount;
+        return currentScore;
     }
 
 }

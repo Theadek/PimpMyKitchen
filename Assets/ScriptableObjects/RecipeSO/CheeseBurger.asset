@@ -17,3 +17,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e78c05cf973c70e42b5a0ead841008ef, type: 2}
   - {fileID: 11400000, guid: d6f6bc67868aa174fb4d4827ea2c74e3, type: 2}
   recipeName: Cheeseburger
+  score: 35
