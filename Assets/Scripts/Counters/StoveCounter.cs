@@ -133,4 +133,16 @@ public class StoveCounter : BaseCounter, IHasProgress
         }
         return null;
     }
+
+    public bool IsBurning()
+    {
+        if(HasRecipeWithInput(GetKitchenObject().GetKitchenObjectSO(), out StoveRecipeSO stoveRecipeSO))
+        {
+            return stoveRecipeSO.isBurning;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }
