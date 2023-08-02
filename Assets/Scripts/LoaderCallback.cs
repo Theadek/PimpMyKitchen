@@ -11,6 +11,7 @@ public class LoaderCallback : MonoBehaviour
         if (isFirstUpdate)
         {
             isFirstUpdate = false;
+            Time.timeScale = 1.0f;
             Loader.LoaderCallback();
         }
     }
