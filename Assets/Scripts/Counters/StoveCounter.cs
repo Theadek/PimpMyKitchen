@@ -47,6 +47,7 @@ public class StoveCounter : BaseCounter, IHasProgress
                 {
                     OnStateChanged?.Invoke(this, new OnStateChangedEventHandler(true));
                 }
+                GetKitchenObject().SetProgress(fryingTimer);
             }
         }
     }
@@ -61,6 +62,7 @@ public class StoveCounter : BaseCounter, IHasProgress
                 if (StoveRecipeSO != null)
                 {
                     player.GetKitchenObject().SetKitchenObjectParent(this);
+                    fryingTimer = GetKitchenObject().GetProgress();
                 }
             }
         }

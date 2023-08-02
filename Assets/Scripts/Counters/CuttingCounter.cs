@@ -31,8 +31,7 @@ public class CuttingCounter : BaseCounter, IHasProgress
                 if (cuttingRecipeSO != null)
                 {
                     player.GetKitchenObject().SetKitchenObjectParent(this);
-
-                    cuttingProgress = 0;
+                    cuttingProgress = Mathf.RoundToInt(GetKitchenObject().GetProgress());
                     OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs((float)cuttingProgress / cuttingRecipeSO.cuttingProgressMax)); //can also just give 0 as 0 divided by whatever is still 0
                 }
             }
@@ -96,6 +95,7 @@ public class CuttingCounter : BaseCounter, IHasProgress
                     GetKitchenObject().DestroySelf();
                     KitchenObject.SpawnKitchenObject(cuttingRecipeSO.output, this);
                 }
+                GetKitchenObject().SetProgress(cuttingProgress);
             }
         }
     }

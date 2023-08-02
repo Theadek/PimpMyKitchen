@@ -7,6 +7,7 @@ public class KitchenObject : MonoBehaviour
     [SerializeField] private KitchenObjectSO kitchenObjectSO;
 
     private IKitchenObjectParent kitchenObjectParent;
+    private float progress = 0f;
 
     public KitchenObjectSO GetKitchenObjectSO()
     {
@@ -77,5 +78,15 @@ public class KitchenObject : MonoBehaviour
         KitchenObject tmpKitchenObject = kitchenObjectTransform.GetComponent<KitchenObject>();
         tmpKitchenObject.SetKitchenObjectParent(parent);
         return tmpKitchenObject;
+    }
+
+    public float GetProgress()
+    {
+        return progress;
+    }
+
+    public void SetProgress(float progress)
+    {
+        this.progress = progress;
     }
 }
